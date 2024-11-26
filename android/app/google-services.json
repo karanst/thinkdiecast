@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "616596266798",
+    "project_id": "think-diecast",
+    "storage_bucket": "think-diecast.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:616596266798:android:d581ed5fb08591074c64bf",
+        "android_client_info": {
+          "package_name": "com.example.thinkdiecast"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "616596266798-maj6nkcubjl03equc07t5lj50jo9dg5p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.thinkdiecast",
+            "certificate_hash": "6d67320b31328589559f88b2b345e31a26f5fd8c"
+          }
+        },
+        {
+          "client_id": "616596266798-n1scav4fs20hnpgt6ogr5beev1hd81kk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAv2Qqwa19QYEvahofTVSIxYOfRDpQok-A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "616596266798-n1scav4fs20hnpgt6ogr5beev1hd81kk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
