@@ -451,17 +451,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
             onTap: () => FocusScope.of(context).unfocus(),
             child: Scaffold(
               resizeToAvoidBottomInset: true,
-            body: Container(
-              // <CHANGE> Dark background with gradient overlay
-              decoration: BoxDecoration(
-                color: Color(0xFF0A0E14),
-                image: DecorationImage(
-                  image: AssetImage('assets/auth_bg.png'),
-                  fit: BoxFit.cover,
-                  opacity: 0.3,
+              body: Container(
+                width: double.infinity,
+                height: double.infinity,
+                decoration: const BoxDecoration(
+                  color: Colors.transparent,
+                  image: DecorationImage(
+                    image: AssetImage('assets/auth_bg.png'),
+                    fit: BoxFit.cover,
+                  ),
                 ),
-              ),
-              child: SingleChildScrollView(
+                child: SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 32.0),
                   child: Column(
