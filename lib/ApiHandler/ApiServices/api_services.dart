@@ -186,10 +186,17 @@ class ApiService {
         throw Exception('Bad request');
       }
     } else if (response.statusCode == 500) {
+      String? errorMessage;
       try {
         final error = jsonDecode(response.body);
-        throw Exception('Server error (500): ${error['error'] ?? error['message'] ?? response.body}');
+        errorMessage = error['error'] ?? error['message'] ?? response.body;
       } catch (_) {
+        // Fallback to null if not JSON
+      }
+
+      if (errorMessage != null) {
+        throw Exception('Server error (500): $errorMessage');
+      } else {
         throw Exception('Server error: Please try again later');
       }
     } else {
