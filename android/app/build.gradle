@@ -1,69 +1,217 @@
 plugins {
     id "com.android.application"
-    id "kotlin-android"
-    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
+    id "org.jetbrains.kotlin.android"
     id "dev.flutter.flutter-gradle-plugin"
-    id 'com.google.gms.google-services'
-//    id 'com.google.gms.google-services'
+    // Uncomment if using Firebase
+    // id "com.google.gms.google-services"
 }
+
+import java.util.Properties
+import java.io.FileInputStream
 
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file("local.properties")
+
 if (localPropertiesFile.exists()) {
     localPropertiesFile.withReader("UTF-8") { reader ->
         localProperties.load(reader)
     }
 }
 
-def flutterVersionCode = localProperties.getProperty("flutter.versionCode")
-if (flutterVersionCode == null) {
-    flutterVersionCode = "1"
-}
+def flutterVersionCode = localProperties.getProperty("flutter.versionCode") ?: "1"
+def flutterVersionName = localProperties.getProperty("flutter.versionName") ?: "1.0"
 
-def flutterVersionName = localProperties.getProperty("flutter.versionName")
-if (flutterVersionName == null) {
-    flutterVersionName = "1.0"
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file("key.properties")
+
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }
 
 android {
-    namespace = "com.example.thinkdiecast"
-    compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    namespace "com.thinkdiecast.app"
 
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
+    compileSdk 35
+    ndkVersion flutter.ndkVersion
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.example.thinkdiecast"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdk = 23
-        targetSdk = flutter.targetSdkVersion
-        versionCode = flutterVersionCode.toInteger()
-        versionName = flutterVersionName
+        applicationId "com.thinkdiecast.app"
+
+        minSdk 23
+        targetSdk 35
+
+        versionCode flutterVersionCode.toInteger()
+        versionName flutterVersionName
+
+        multiDexEnabled true
+    }
+
+    signingConfigs {
+        release {
+            if (keystorePropertiesFile.exists()) {
+                keyAlias keystoreProperties["keyAlias"]
+                keyPassword keystoreProperties["keyPassword"]
+                storeFile file(keystoreProperties["storeFile"])
+                storePassword keystoreProperties["storePassword"]
+            }
+        }
     }
 
     buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+        }
+
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.debug
+            minifyEnabled false
+            shrinkResources false
+
+            if (keystorePropertiesFile.exists()) {
+                signingConfig signingConfigs.release
+            } else {
+                signingConfig signingConfigs.debug
+            }
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+
+    packaging {
+        jniLibs {
+            useLegacyPackaging true
+            excludes += [
+                    "**/libVkLayer_khronos_validation.so"
+            ]
+        }
+
+        resources {
+            excludes += [
+                    "META-INF/LICENSE*",
+                    "META-INF/NOTICE*",
+                    "META-INF/*.kotlin_module"
+            ]
         }
     }
 }
 
 flutter {
-    source = "../.."
+    source "../.."
 }
-dependencies {
 
-    implementation(platform("com.google.firebase:firebase-bom:33.2.0"))
-    implementation("com.google.firebase:firebase-appcheck-debug")
+dependencies {
+    implementation "androidx.multidex:multidex:2.0.1"
+
+    // Uncomment if using Firebase
+    // implementation platform("com.google.firebase:firebase-bom:33.16.0")
+    // implementation "com.google.firebase:firebase-analytics"
 }
-//dependencies {
-//    implementation platform('com.google.firebase:firebase-bom:33.1.2')
-//    implementation 'com.google.firebase:firebase-analytics'
+
+//plugins {
+//    id "com.android.application"
+//    id "kotlin-android"
+//    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
+//    id "dev.flutter.flutter-gradle-plugin"
+////    id 'com.google.gms.google-services'
+////    id 'com.google.gms.google-services'
 //}
+//apply plugin: 'com.android.application'
+//apply plugin: 'kotlin-android'
+//
+//
+//def localProperties = new Properties()
+//def localPropertiesFile = rootProject.file("local.properties")
+//if (localPropertiesFile.exists()) {
+//    localPropertiesFile.withReader("UTF-8") { reader ->
+//        localProperties.load(reader)
+//    }
+//}
+//
+//def flutterVersionCode = localProperties.getProperty("flutter.versionCode")
+//if (flutterVersionCode == null) {
+//    flutterVersionCode = "1"
+//}
+//
+//def flutterVersionName = localProperties.getProperty("flutter.versionName")
+//if (flutterVersionName == null) {
+//    flutterVersionName = "1.0"
+//}
+//
+//android {
+//    namespace = "com.thinkdiecast.app"
+//    compileSdk = 34
+//    ndkVersion = flutter.ndkVersion
+//
+//    packagingOptions {
+//        jniLibs {
+//            useLegacyPackaging = false
+//            excludes += ["lib/**/libVkLayer_khronos_validation.so"]
+//        }
+//    }
+//
+//    compileOptions {
+//        sourceCompatibility = JavaVersion.VERSION_17
+//        targetCompatibility = JavaVersion.VERSION_17
+//    }
+//    kotlinOptions {
+//        jvmTarget = '17'
+//    }
+//
+//    defaultConfig {
+//        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
+//        applicationId = "com.thinkdiecast.app"
+//        // You can update the following values to match your application needs.
+//        // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
+//        minSdk = 23
+//        targetSdk = flutter.targetSdkVersion
+//        versionCode = flutterVersionCode.toInteger()
+//        versionName = flutterVersionName
+//        multiDexEnabled true
+//    }
+//
+//    def keystorePropertiesFile = rootProject.file("key.properties")
+//    def keystoreProperties = new Properties()
+//    if (keystorePropertiesFile.exists()) {
+//        keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+//    }
+//
+//    signingConfigs {
+//        release {
+//            keyAlias = keystoreProperties['keyAlias']
+//            keyPassword = keystoreProperties['keyPassword']
+//            storeFile = keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+//            storePassword = keystoreProperties['storePassword']
+//        }
+//    }
+//
+//    buildTypes {
+//        release {
+//            minifyEnabled false
+//            shrinkResources false
+////            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+//            // TODO: Add your own signing config for the release build.
+//            // Signing with the debug keys for now, so `flutter run --release` works.
+//            signingConfig = signingConfigs.debug
+//        }
+//    }
+//}
+//
+//flutter {
+//    source = "../.."
+//}
+//dependencies {
+//
+////    implementation(platform("com.google.firebase:firebase-bom:33.16.0"))
+////    implementation("com.google.firebase:firebase-appcheck-debug")
+//    implementation 'androidx.multidex:multidex:2.0.1'
+//}
+////dependencies {
+////    implementation platform('com.google.firebase:firebase-bom:33.1.2')
+////    implementation 'com.google.firebase:firebase-analytics'
+////}

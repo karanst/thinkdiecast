@@ -8,19 +8,25 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:thinkdiecast/route_management/all_pages.dart';
 import 'package:thinkdiecast/route_management/routes.dart';
 import 'package:thinkdiecast/route_management/screen_bindings.dart';
+import 'package:get/get.dart';
+import 'package:thinkdiecast/controllers/network_controller.dart';
+import 'package:thinkdiecast/views/widgets/no_internet_screen.dart';
 
 ///      ॐ 卐 ॐ      ॐ 卐 ॐ      ॐ 卐 ॐ      श्री गणेश      ॐ 卐 ॐ      ॐ 卐 ॐ      ॐ 卐 ॐ      ///
 
+
+
+///THINKDIECAST
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(
       options: const FirebaseOptions(
-    apiKey: 'AIzaSyAv2Qqwa19QYEvahofTVSIxYOfRDpQok-A',
-    appId: '1:616596266798:android:d581ed5fb08591074c64bf',
+    apiKey: 'AIzaSyCczeWmykVTNS8PZglxHrodzuzDb1ZRdPY',
+    appId: '1:306343617181:android:2a94e0ab948e782c34ea74',
     messagingSenderId: 'sendid',
-    projectId: 'think-diecast',
-    storageBucket: 'think-diecast.appspot.com',
+    projectId: 'thinkdiecast-629f6',
+    storageBucket: 'thinkdiecast-629f6.firebasestorage.app',
   ));
   await FirebaseAppCheck.instance
       // Your personal reCaptcha public key goes here:
@@ -45,11 +51,19 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       themeMode: ThemeMode.light,
       builder: (context, child) {
-        final MediaQueryData data = MediaQuery.of(context);
-        return MediaQuery(
-          data: data.copyWith(textScaleFactor: 1.0),
-          child: child!,
-        );
+        return Obx(() {
+          bool isConnected = true;
+          if (Get.isRegistered<NetworkController>()) {
+            isConnected = Get.find<NetworkController>().isConnected.value;
+          }
+          return Stack(
+            children: [
+              if (child != null) child,
+              if (!isConnected)
+                const NoInternetScreen(),
+            ],
+          );
+        });
       },
       debugShowCheckedModeBanner: false,
       initialRoute: splashScreen,

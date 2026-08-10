@@ -1,7 +1,7 @@
 import 'package:thinkdiecast/route_management/routes.dart';
 import 'package:thinkdiecast/route_management/screen_bindings.dart';
-import 'package:thinkdiecast/views/dashboard_screen.dart';
-import 'package:thinkdiecast/views/home_screen.dart';
+import 'package:thinkdiecast/views/DashboardView/dashboard_screen.dart';
+
 import 'package:thinkdiecast/views/intro_screen.dart';
 import 'package:thinkdiecast/views/Authview/login_screen.dart';
 import 'package:thinkdiecast/views/splash_screen.dart';
@@ -22,10 +22,10 @@ class AllPages {
           name: introScreen,
           page: () => const IntroScreen(),
           binding: ScreenBindings()),
-      GetPage(
-          name: homeScreen,
-          page: () => const HomeScreen(),
-          binding: ScreenBindings()),
+      // GetPage(
+      //     name: homeScreen,
+      //     page: () => const HomeScreen(),
+      //     binding: ScreenBindings()),
       GetPage(
           name: dashbord,
           page: () => const DashboardScreen(),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
+import 'package:thinkdiecast/views/DialogWidgets/payment_failed_dialog.dart';
+import 'package:thinkdiecast/views/DialogWidgets/payment_success_dialog.dart';
 
 class RazorpayManager {
   late Razorpay _razorpay;
@@ -47,7 +49,12 @@ class RazorpayManager {
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
     debugPrint("Payment Success: ${response.paymentId}");
-    _showMessage('Payment Successful! ID: ${response.paymentId}');
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return const PaymentSuccessDialog();
+      },
+    );
     if (onPaymentSuccessCallback != null) {
       onPaymentSuccessCallback!();
     }
@@ -55,7 +62,12 @@ class RazorpayManager {
 
   void _handlePaymentError(PaymentFailureResponse response) {
     debugPrint("Payment Error: ${response.code} | ${response.message}");
-    _showMessage('Payment Failed: ${response.message}');
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return const PaymentFailedDialog();
+      },
+    );
   }
 
   void _handleExternalWallet(ExternalWalletResponse response) {

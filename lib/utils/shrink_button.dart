@@ -10,6 +10,7 @@ class ShrinkButton extends StatefulWidget {
   final double? btnWidth;
   final double? btnHeight;
   final double? fSize;
+  final Color? color;
 
   ShrinkButton(
       {required this.child,
@@ -17,7 +18,8 @@ class ShrinkButton extends StatefulWidget {
       this.shrinkScale = 0.9,
       this.btnWidth,
       this.btnHeight,
-      this.fSize});
+      this.fSize,
+        this.color});
 
   @override
   _ShrinkButtonState createState() => _ShrinkButtonState();
@@ -55,8 +57,7 @@ class _ShrinkButtonState extends State<ShrinkButton>
               height: widget.btnHeight ?? 60,
               width: widget.btnWidth ?? MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                      colors: [AppColors.bright, AppColors.bright]),
+                color: widget.color ?? AppColors.bright,
                   borderRadius: BorderRadius.circular(40)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -89,13 +90,14 @@ class LoadingButton extends StatefulWidget {
   final double? btnHeight;
   final double? fSize;
 
+
   LoadingButton(
       {required this.child,
       required this.onPressed,
       this.shrinkScale = 0.9,
       this.btnWidth,
       this.btnHeight,
-      this.fSize});
+      this.fSize,});
 
   @override
   _LoadingButtonState createState() => _LoadingButtonState();
@@ -132,6 +134,7 @@ class _LoadingButtonState extends State<LoadingButton>
           child: Container(
               height: widget.btnHeight ?? 60,
               width: widget.btnWidth ?? MediaQuery.of(context).size.width,
+              // color:  AppColors.bright ,
               decoration: BoxDecoration(
                   gradient: const LinearGradient(
                       colors: [AppColors.bright, AppColors.bright]),

@@ -1,7 +1,7 @@
 import 'package:thinkdiecast/controllers/intro_controller.dart';
 import 'package:thinkdiecast/utils/colors.dart';
 import 'package:thinkdiecast/utils/shrink_button.dart';
-import 'package:thinkdiecast/views/home_screen.dart';
+import 'package:thinkdiecast/views/DashboardView/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';

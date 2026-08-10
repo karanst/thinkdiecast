@@ -11,6 +11,7 @@ ThemeData _lightTheme = ThemeData(
       disabledColor: Colors.grey,
     ));
 
+
 class AppColors {
   ///LIGHT THEME COLORS
   static const Color primaryLight = Colors.white;
@@ -18,10 +19,16 @@ class AppColors {
   static const Color scaffoldLight = Colors.white;
   static const Color textLight = Color(0xffa1a1a1);
   static const Color fieldColor = Color(0xffdedede);
-  static const Color grad1Clr = Color(0xff0082C6);
-  static const Color grad2Clr = Color(0xff0082C6);
-  static const Color primary = Color(0xff0082C6);
-  static const Color red = Color(0xffF54B4B);
+  static const Color grad1Clr = Color(0xFF840080);
+  static const Color grad2Clr = Color(0xFF003D97);
+  static const Color backgroundClr = Color(0xFFEBEEFF);
+  static const Color cardBgClr = Color(0xffD4DBFF);
+  static const Color borderColor = Color(0xff8598ff);
+
+  // Color(0xFF003D97);
+  static const Color primary = Color(0xff10266F);
+  static const Color red = Color(0xffFB0606);
+
 
   ///DARK THEME COLORS
   static const Color primaryDark = Color(0xff64b500);
@@ -30,10 +37,11 @@ class AppColors {
 
   static const Color dark = Color(0xff595959);
   static const Color dark50 = Color(0xffACACAC);
-  static const Color bright = Color(0xffE7A634);
+  static const Color bright =Color(0xff3C5BFF);
   static const Color light = Color(0xfff2f2f2);
   static const Color white = Color(0xffffffff);
   static const Color text = Color(0xff071838);
+  static const Color bright2 = Color(0xff243799);
 
   static const Color black = Colors.black;
 }

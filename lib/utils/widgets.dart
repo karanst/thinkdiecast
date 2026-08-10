@@ -3,6 +3,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:thinkdiecast/utils/colors.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 SnackbarController showSnackBar(String msg) {
   return Get.showSnackbar(
@@ -84,4 +85,105 @@ String getTrimmedString(String inputString, int maxCharacter) {
       ? '${inputString.substring(0, maxCharacter)}...'
       : inputString;
   return truncatedText;
+}
+
+Future<bool?> showCustomConfirmDialog({
+  required BuildContext context,
+  required String message,
+  required String actionText,
+  bool isLogout = false,
+}) {
+  return showDialog<bool>(
+    context: context,
+    barrierDismissible: true,
+    builder: (BuildContext context) {
+      return Dialog(
+        backgroundColor: Colors.transparent,
+        insetPadding: const EdgeInsets.symmetric(horizontal: 40),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 24),
+              decoration: BoxDecoration(
+                color: const Color(0xFFEFF3FD),
+                borderRadius: BorderRadius.circular(36),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  isLogout
+                      ? const Icon(
+                          Icons.power_settings_new_rounded,
+                          size: 90,
+                          color: Color(0xFFEF5350),
+                        )
+                      : SvgPicture.asset(
+                          'assets/icons/delete.svg',
+                          width: 90,
+                          height: 90,
+                          colorFilter: const ColorFilter.mode(
+                            Color(0xFFEF5350),
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                  const SizedBox(height: 24),
+                  Text(
+                    message,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: Color(0xFF1E2022),
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      height: 1.3,
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pop(true);
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFEF5350),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      child: Center(
+                        child: Text(
+                          actionText,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 20),
+            GestureDetector(
+              onTap: () => Navigator.of(context).pop(false),
+              child: Container(
+                padding: const EdgeInsets.all(12),
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.close,
+                  color: Colors.black,
+                  size: 28,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    },
+  );
 }

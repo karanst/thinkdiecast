@@ -6,18 +6,13 @@ import 'package:get/get_instance/get_instance.dart';
 // import 'package:thinkdiecast/view/Dashboard/dashboard_screen.dart';
 // import 'package:thinkdiecast/view/Shop/shops_screen.dart';
 
+import 'package:thinkdiecast/controllers/refresh_controller.dart';
+import 'package:thinkdiecast/controllers/network_controller.dart';
+
 class ScreenBindings implements Bindings {
   @override
   void dependencies() {
-    // TODO: implement dependencies
-    // Get.lazyPut(() => SplashController());
-    // Get.lazyPut(() => const LoginScreen());
-    // Get.lazyPut(() => const ShopsScreen());
-    // Get.lazyPut(() =>  SignupScreen() );
-    // // Get.lazyPut(() =>  const BottomBar() );
-    // Get.lazyPut(() =>  const OtpScreen());
-    //Get.lazyPut(() =>  const ForgotPasswordScreen() );
-    // Get.lazyPut(() =>  const PortfolioScreen() );
-    // Get.lazyPut(() =>  const IntroScreen() );
+    Get.put(AppRefreshController(), permanent: true);
+    Get.put(NetworkController(), permanent: true);
   }
 }

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'DialogWidgets/see_details_dialog.dart';
 
@@ -16,37 +17,45 @@ class _SearchListScreenState extends State<SearchListScreen> {
   List data = [];
   List<DocumentSnapshot> filteredDocs = [];
 
+  String? userId;
+
+  fetchDetails() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      userId = preferences.getString('userId');
+    });
+
+  }
+
   Stream<List<DocumentSnapshot>> getSearchResults() async* {
-    filteredDocs.clear();
-    // Listen to changes in Firestore using snapshots()
-    await for (var snapshot
-        in FirebaseFirestore.instance.collection('Products').snapshots()) {
-      // Filter the documents based on the search keyword
+    await for (var snapshot in FirebaseFirestore.instance
+        .collection('Products')
+        .where('createdBy', isEqualTo: userId)
+        .snapshots()) {
+      // Clear the filteredDocs list before processing new data
+      filteredDocs.clear();
+
       for (var document in snapshot.docs) {
         if (document['name']
             .toString()
             .toLowerCase()
-            .contains(widget.searchKeyword.toLowerCase())) {
-          filteredDocs.add(document); // Add the DocumentSnapshot to the list
-        } else if (document['color']
-            .toString()
-            .toLowerCase()
-            .contains(widget.searchKeyword.toLowerCase())) {
-          filteredDocs.add(document); // Add the DocumentSnapshot to the list
-        } else if (document['category']
-            .toString()
-            .toLowerCase()
-            .contains(widget.searchKeyword.toLowerCase())) {
-          filteredDocs.add(document); // Add the DocumentSnapshot to the list
-        } else if (document['scale']
-            .toString()
-            .toLowerCase()
-            .contains(widget.searchKeyword.toLowerCase())) {
-          filteredDocs.add(document); // Add the DocumentSnapshot to the list
-        } else if (document['brand']
-            .toString()
-            .toLowerCase()
-            .contains(widget.searchKeyword.toLowerCase())) {
+            .contains(widget.searchKeyword.toLowerCase()) ||
+            document['color']
+                .toString()
+                .toLowerCase()
+                .contains(widget.searchKeyword.toLowerCase()) ||
+            document['category']
+                .toString()
+                .toLowerCase()
+                .contains(widget.searchKeyword.toLowerCase()) ||
+            document['scale']
+                .toString()
+                .toLowerCase()
+                .contains(widget.searchKeyword.toLowerCase()) ||
+            document['brand']
+                .toString()
+                .toLowerCase()
+                .contains(widget.searchKeyword.toLowerCase())) {
           filteredDocs.add(document); // Add the DocumentSnapshot to the list
         }
       }
@@ -56,9 +65,10 @@ class _SearchListScreenState extends State<SearchListScreen> {
     }
   }
 
+
   @override
   void initState() {
-    // TODO: implement initState
+    fetchDetails();
     super.initState();
     // getSearchResults();
   }
@@ -123,12 +133,12 @@ class _SearchListScreenState extends State<SearchListScreen> {
                               DocumentSnapshot document = results[index];
                               return InkWell(
                                   onTap: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return SeeDetailsDialog(data: document);
-                                      },
-                                    );
+                                    // showDialog(
+                                    //   context: context,
+                                    //   builder: (BuildContext context) {
+                                    //     return SeeDetailsDialog(data: document);
+                                    //   },
+                                    // );
                                     // Navigator.push(context, MaterialPageRoute(builder: (context)=> SeeDetails()));
                                   },
                                   child: Container(
